@@ -1,6 +1,6 @@
-from django.conf import settings
 from django.db import models
 from education.models import Course, Lesson
+from user.models import User
 
 NULLABLE = {'blank': True, 'null': True}
 
@@ -10,7 +10,7 @@ STATUS_CHOICES = [
 ]
 
 class Payments(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
+    user = models.ForeignKey(User, on_delete=models.CASCADE, **NULLABLE,
                              related_name='payments', verbose_name='пользователь')
     date = models.DateTimeField(auto_now_add=True, verbose_name='дата оплаты')
     amount = models.DecimalField(max_digits=10, decimal_places=1, verbose_name='сумма оплаты')

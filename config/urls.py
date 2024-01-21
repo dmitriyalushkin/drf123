@@ -21,7 +21,7 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('course/', include('course.urls', namespace='course')),
+    path('', include('education.urls', namespace='education')),
+    path('', include('payments.urls', namespace='payments')),
     # path('user/', include('user.urls', namespace='user')),
-    path('lesson/', include('lesson.urls', namespace='lesson')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

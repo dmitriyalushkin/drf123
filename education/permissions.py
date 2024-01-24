@@ -15,7 +15,7 @@ class IsLessonOwner(BasePermission):
     massage = "Вы не являетесь владельцем"
 
     def has_object_permission(self, request, view, obj):
-        if request.user == obj.lesson_owner:
+        if request.user == obj.user:
             return True
         return False
 
@@ -24,6 +24,6 @@ class IsCourseOwner(BasePermission):
     massage = "Вы не являетесь владельцем"
 
     def has_object_permission(self, request, view, obj):
-        if request.user == obj.course_owner:
+        if request.user == obj.user:
             return True
         return False

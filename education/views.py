@@ -1,13 +1,15 @@
 from rest_framework import viewsets, generics
-from education.models import Course, Lesson
+from education.models import Course, Lesson, Subscription
+from education.paginators import EducationPagination
 from education.permissions import IsModerator, IsLessonOwner, IsCourseOwner
-from education.serializers import CourseSerializer, LessonSerializer
-from rest_framework.permissions import IsAuthenticated
+from education.serializers import CourseSerializer, LessonSerializer, SubscriptionSerializer
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
 
 class CourseViewSet(viewsets.ModelViewSet):
     serializer_class = CourseSerializer
     queryset = Course.objects.all()
+    pagination_class = EducationPagination
     def get_permissions(self):
         if self.action == 'create':
             permission_classes = [IsAuthenticated]
@@ -29,6 +31,7 @@ class LessonListAPIView(generics.ListAPIView):
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
     permission_classes = [IsAuthenticated, IsModerator | IsLessonOwner]
+    pagination_class = EducationPagination
 
 
 class LessonRetrieveAPIView(generics.RetrieveAPIView):
@@ -47,3 +50,14 @@ class LessonDeleteAPIView(generics.DestroyAPIView):
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
     permission_classes = [IsAuthenticated, IsLessonOwner]
+
+
+class SubscriptionViewSet(viewsets.ModelViewSet):
+    serializer_class = SubscriptionSerializer
+    queryset = Subscription.objects.all()
+    permission_classes = [AllowAny]
+
+    def perform_create(self, serializer):
+        new_lesson = serializer.save()
+        new_lesson.user = self.request.user
+        new_lesson.save()

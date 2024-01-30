@@ -5,7 +5,6 @@ from payments.views import PaymentCreateAPIView, PaymentListAPIView, PaymentRetr
 
 app_name = PaymentsConfig.name
 
-
 urlpatterns = [
     path('payments/create/', PaymentCreateAPIView.as_view(), name='payments-create'),
     path('payments/', PaymentListAPIView.as_view(), name='payments'),

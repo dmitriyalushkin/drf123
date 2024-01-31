@@ -20,6 +20,8 @@ class Payments(models.Model):
                                        related_name='payments', verbose_name='оплаченный курс')
     lesson_payment = models.ForeignKey(Lesson, on_delete=models.CASCADE, **NULLABLE,
                                        related_name='payments', verbose_name='оплаченный урок')
+    session_id = models.CharField(max_length=150, verbose_name='id сессии', **NULLABLE)
+    is_paid = models.BooleanField(default=False, verbose_name='статус оплаты')
 
     def __str__(self):
         return f'{self.date}'

@@ -4,6 +4,7 @@ from education.paginators import EducationPagination
 from education.permissions import IsModerator, IsLessonOwner, IsCourseOwner
 from education.serializers import CourseSerializer, LessonSerializer, SubscriptionSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
+from education.tasks import check_update
 
 
 class CourseViewSet(viewsets.ModelViewSet):
@@ -21,6 +22,9 @@ class CourseViewSet(viewsets.ModelViewSet):
             permission_classes = [IsAuthenticated, IsCourseOwner]
         return [permission() for permission in permission_classes]
 
+    def put(self, request, *args, **kwargs):
+        result = check_update.delay()
+        return result
 
 class LessonCreateAPIView(generics.CreateAPIView):
     serializer_class = LessonSerializer

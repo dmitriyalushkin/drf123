@@ -10,6 +10,8 @@ class Course(models.Model):
     description = models.TextField(verbose_name='описание')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, **NULLABLE,
                              verbose_name='пользователь')
+    date_update = models.DateTimeField(auto_now=True, null=True, blank=True)
+    date_preview = models.DateTimeField(auto_now=True, null=True, blank=True)
 
     def __str__(self):
         return f'{self.name}'
